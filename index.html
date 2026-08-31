@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="el">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Διαδραστική προσομοίωση ηλεκτρομαγνητικής ακτινοβολίας με άτομο οξυγόνου."
+    />
+    <title>Η/Μ ακτινοβολία &amp; άτομο οξυγόνου</title>
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <main class="app-shell container-fluid">
+      <section class="simulation-panel" aria-labelledby="simulation-title">
+        <div class="panel-heading">
+          <div>
+            <span class="panel-kicker"
+              >Η/Μ Ακτινοβολία και Άτομο Οξυγόνου</span
+            >
+          </div>
+          <div
+            id="simulationStatus"
+            class="status-pill"
+            role="status"
+            aria-live="polite"
+          >
+            <span class="status-light" aria-hidden="true"></span>
+            Αναμονή εκπομπής
+          </div>
+        </div>
+
+        <div id="simulationStage" class="simulation-stage">
+          <canvas id="waveCanvas" aria-hidden="true"></canvas>
+
+          <div class="stage-grid" aria-hidden="true"></div>
+
+          <div class="playback-controls" role="group" aria-label="Έλεγχος αναπαραγωγής">
+            <button
+              id="stepBackwardButton"
+              class="playback-control"
+              type="button"
+              aria-label="Πίσω κατά 1 καρέ"
+              title="Πίσω κατά 1 καρέ — κρατήστε πατημένο για συνεχή κίνηση"
+              disabled
+            >
+              <i class="bi bi-chevron-double-left" aria-hidden="true"></i>
+            </button>
+            <button
+              id="playButton"
+              class="playback-control"
+              type="button"
+              aria-label="Αναπαραγωγή"
+              title="Αναπαραγωγή"
+              disabled
+            >
+              <i class="bi bi-play-fill" aria-hidden="true"></i>
+            </button>
+            <button
+              id="pauseButton"
+              class="playback-control"
+              type="button"
+              aria-label="Παύση"
+              title="Παύση"
+              disabled
+            >
+              <i class="bi bi-pause-fill" aria-hidden="true"></i>
+            </button>
+            <button
+              id="stepForwardButton"
+              class="playback-control"
+              type="button"
+              aria-label="Μπροστά κατά 1 καρέ"
+              title="Μπροστά κατά 1 καρέ — κρατήστε πατημένο για συνεχή κίνηση"
+              disabled
+            >
+              <i class="bi bi-chevron-double-right" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <aside
+            class="source-station"
+            aria-label="Διάδοση ηλεκτρομαγνητικής ακτινοβολίας"
+          >
+            <div class="source-label">
+              <span>Διάδοση Η/Μ ακτινοβολίας</span>
+            </div>
+
+            <div class="source-direction" aria-hidden="true">
+              <svg viewBox="0 0 112 24">
+                <path d="M4 12h100M94 3l10 9-10 9" />
+              </svg>
+            </div>
+          </aside>
+
+          <button id="irradiateButton" class="irradiate-button" type="button">
+            <span class="button-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img">
+                <path d="M4 12h12M12 6l6 6-6 6" />
+              </svg>
+            </span>
+            Εκπομπή φωτονίου
+          </button>
+
+          <figure
+            class="interaction-zone"
+            role="img"
+            aria-label="Άτομο οξυγόνου με δύο ηλεκτρόνια στην Κ στιβάδα και έξι ηλεκτρόνια στην L στιβάδα"
+          >
+            <div class="oxygen-atom" aria-hidden="true">
+              <span class="electron-shell k-shell"></span>
+              <span class="electron-shell l-shell"></span>
+              <span class="electron-shell excited-shell m-shell"></span>
+              <span class="electron-shell excited-shell n-shell"></span>
+              <span class="nucleus oxygen-nucleus" data-symbol="O"></span>
+
+              <span class="electron k-electron" style="--angle: 90deg; --radius: 35px"></span>
+              <span class="electron k-electron" style="--angle: 270deg; --radius: 35px"></span>
+
+              <span class="electron l-electron" style="--angle: 0deg; --radius: 67px"></span>
+              <span class="electron l-electron" style="--angle: 60deg; --radius: 67px"></span>
+              <span class="electron l-electron" style="--angle: 120deg; --radius: 67px"></span>
+              <span class="electron l-electron" style="--angle: 180deg; --radius: 67px"></span>
+              <span class="electron l-electron" style="--angle: 240deg; --radius: 67px"></span>
+              <span class="electron l-electron" style="--angle: 300deg; --radius: 67px"></span>
+            </div>
+            <figcaption class="atom-label">
+              Άτομο O
+            </figcaption>
+          </figure>
+
+        </div>
+      </section>
+
+      <footer class="spectrum-panel" aria-labelledby="spectrum-title">
+        <div class="spectrum-heading">
+          <div>
+            <h2 id="spectrum-title">Ηλεκτρομαγνητικό φάσμα</h2>
+          </div>
+          <div class="photon-energy-readout">
+            <span>Ενέργεια Φωτονίου:</span>
+            <output id="photonEnergyValue" for="photonEnergySlider"></output>
+          </div>
+        </div>
+
+        <div class="spectrum-frame">
+          <div class="spectrum-content">
+            <div
+              class="spectrum"
+              role="img"
+              aria-label="Οι επτά περιοχές του ηλεκτρομαγνητικού φάσματος σε λογαριθμική κλίμακα, από τα ραδιοκύματα έως τις ακτίνες γάμμα"
+            >
+              <span
+                id="spectrumMarker"
+                class="spectrum-marker"
+                aria-hidden="true"
+              ></span>
+              <div class="spectrum-band band-radio">
+                <strong>Ραδιοκύματα</strong>
+              </div>
+              <div class="spectrum-band band-microwave">
+                <strong>Μικροκύματα</strong>
+              </div>
+              <div class="spectrum-band band-infrared">
+                <strong>Υπέρυθρη</strong>
+              </div>
+              <div class="spectrum-band band-visible">
+                <img src="assets/visible-spectrum.png" alt="" />
+                <strong>Ορατό</strong>
+              </div>
+              <div class="spectrum-band band-ultraviolet">
+                <strong>Υπεριώδης</strong>
+              </div>
+              <div class="spectrum-band band-xray">
+                <strong>Ακτίνες Χ</strong>
+              </div>
+              <div class="spectrum-band band-gamma">
+                <strong>Ακτίνες γ</strong>
+              </div>
+            </div>
+            <div class="spectrum-slider">
+              <input
+                id="photonEnergySlider"
+                class="energy-slider"
+                type="range"
+                min="0"
+                max="1000"
+                value="313"
+                step="any"
+                aria-label="Συνεχής επιλογή ενέργειας φωτονίων"
+              />
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
